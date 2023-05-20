@@ -14,6 +14,8 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../utils/firebase'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { GoogleAuth } from '../components/GoogleAuth';
+
 
 export default function SignIn() {
   const { authUser, loading } = useAuth()
@@ -100,10 +102,11 @@ export default function SignIn() {
             >
               Sign In
             </StoneButton>
+            <GoogleAuth />
             <Grid container>
               <Grid item sx={{p:2}}>
                 <Link to="/signup" style={{ textDecoration: 'none', color: '#669bbc'}}>
-                  Don't have an account? Sign Up
+                  Or Register with Email and Password
                 </Link>
               </Grid>
             </Grid>

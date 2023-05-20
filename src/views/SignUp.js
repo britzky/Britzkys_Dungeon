@@ -13,14 +13,16 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { useNavigate } from 'react-router-dom';
 import { FormBox } from '../components/CustomBoxes';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '../utils/firebase';
 import { useAuth } from '../context/AuthContext';
+import { ResponsiveTypography } from '../components/ResponsiveTypography';
+import { useSaveUser } from '../hooks/useSaveUser';
 
 export default function SignUp() {
 const [email, setEmail] = useState(null)
 const [password, setPassword] = useState(null)
 const [name, setName] = useState(null)
+
+const { saveUser } = useSaveUser()
 
 const { authUser, loading } = useAuth()
 const navigate = useNavigate();
@@ -37,11 +39,9 @@ const handleSubmit = async (event) => {
   try{
     const userCredential = await createUserWithEmailAndPassword(auth, email, password)
     const user = userCredential.user
-    console.log('User: ', user)
-    await updateProfile(user, {
-      displayName: name,
-    }).then(async () => {
-        //after successfully updating the profile navigate to the seign in page
+    
+    await updateProfile(user, {displayName: name,}).then(async () => {
+        //after successfully updating the profile navigate to the home page
         navigate('/');
     }) 
     
@@ -52,10 +52,7 @@ const handleSubmit = async (event) => {
       }
 
       //add user data to firestore
-      await setDoc(doc(db, "users", user.uid), {
-        uid: userData.uid,
-        email: userData.email
-    })
+      await saveUser(userData)
     
     // Navigate to home page after successful sign up and when authUser is available
     if (!loading && authUser) {
@@ -137,7 +134,6 @@ const handleSubmit = async (event) => {
 
                 />
               </Grid>
-
             </Grid>
             <StoneButton
               type="submit"
@@ -147,7 +143,7 @@ const handleSubmit = async (event) => {
             >
               Sign Up
             </StoneButton>
-            <Grid container justifyContent="center">
+            <Grid container justifyContent="center">          
               <Grid item>
                 <Link to="/signin"  style={{ textDecoration: 'none', color: '#669bbc'}}>
                   Already have an account? Sign in
