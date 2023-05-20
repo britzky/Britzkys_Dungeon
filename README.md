@@ -2,7 +2,7 @@
 
 This is a web application designed for Dungeons and Dragons enthusiasts who want an easy and intuitive way to create, save, and manage their characters. You can check out the live project [here](https://gilded-squirrel-0bbe73.netlify.app).
 
-![Portfolio Screenshot](public/images/screenshot.PNG)
+![Portfolio Screenshot](public/images/expandedCharacters.PNG)
 
 ## Features
 
